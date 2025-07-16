@@ -1,11 +1,8 @@
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
+from ClientResponse import client_response
 
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+
+client = client_response
 
 def generate_image(prompt: str, data_list: list[str]) -> list[dict]:
     
