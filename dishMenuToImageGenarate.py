@@ -1,6 +1,6 @@
-from UseModules.imageTotextGenarate import use_generate_response_from_image as textgen
+from UserModules.ImageToText import extract_text as textgen
 
-from UseModules.textToImageGenarate import use_generate_base64_images as imagegen
+from UserModules.textToImage import generate_image as imagegen
 import os
 import base64
 
@@ -21,16 +21,13 @@ try:
   print(list1)
   
   image_prompt = "Realistic top-view image served on a traditional Indian plate of"
-  model = "dall-e-3"
-  size = "1024x1024"
-  quality = "standard"
   dishes=list1
-  images = imagegen(image_prompt, model, size, quality, dishes)
+  images = imagegen(image_prompt,dishes)
   output_folder = "AiGenaratedImages"
   os.makedirs(output_folder, exist_ok=True)
 
   for item in images:
-    dish_name = item["dish"].replace(" ", "_")  # Replace spaces with underscores
+    dish_name = item["dish"].replace(" ", "_")  
     image_data = item["image_base64"]
     
    

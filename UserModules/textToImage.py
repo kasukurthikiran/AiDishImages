@@ -7,16 +7,16 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
-def generate_image(prompt: str, model: str, size: str, quality: str, dishes: list[str]) -> list[dict]:
+def generate_image(prompt: str, data_list: list[str]) -> list[dict]:
     
     results = []
 
-    for dish in dishes:
+    for dish in data_list:
         response = client.images.generate(
-            model=model,
+            model="dall-e-3",
             prompt=f"{prompt} - {dish}",
-            size=size,
-            quality=quality,
+            size="1024x1024",
+            quality = "standard",
             n=1,
             response_format="b64_json"
         )
