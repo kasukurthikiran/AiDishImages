@@ -1,8 +1,8 @@
-from ClientResponse import client_response
+import ClientResponse
 
 
 
-client = client_response
+client = ClientResponse.client_response()
 
 def generate_image(prompt: str, data_list: list[str]) -> list[dict]:
     
