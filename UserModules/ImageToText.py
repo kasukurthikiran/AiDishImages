@@ -5,7 +5,7 @@ import ClientResponse
 
 
 client = ClientResponse.client_response()
-print(client)
+
 
 def extract_text(image_path: str, prompt: str):
     with open(image_path, "rb") as image_file:
