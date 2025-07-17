@@ -1,10 +1,10 @@
 import os
 import base64
-import ClientResponse
+
+from .ClientResponse import client_response
 
 
-
-client = ClientResponse.client_response()
+client = client_response()
 
 
 def extract_text(image_path: str, prompt: str):
