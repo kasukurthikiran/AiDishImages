@@ -1,10 +1,11 @@
 import os
 import base64
-from openai import OpenAI
-from dotenv import load_dotenv
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+import ClientResponse
+
+
+
+client = ClientResponse.client_response()
+
 
 def extract_text(image_path: str, prompt: str):
     with open(image_path, "rb") as image_file:
