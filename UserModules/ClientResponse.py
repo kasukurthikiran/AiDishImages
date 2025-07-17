@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 
 
-load_dotenv()   #loading dotenv file
+load_dotenv()   
 
 def client_response():
     api_key = os.getenv("OPENAI_API_KEY")
