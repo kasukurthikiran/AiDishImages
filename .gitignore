@@ -1,7 +1,8 @@
+my_env/
 virtual-ai/
+
 .env
 menu.jpg
-
 
 AiGenaratedImages/
 UserMenuImages/
