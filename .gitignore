@@ -1,4 +1,7 @@
 my_env/
+virtual-ai/
+
+
 .env
 menu.jpg
 
@@ -6,4 +9,13 @@ menu.jpg
 AiGenaratedImages/
 UserMenuImages/
 
-UseModules/__pycache__/
+UseModules/_pycache_/
+
+simplethread
+
+
+a.py
+b.py
+t.py
+
+AdjustAiImages/
