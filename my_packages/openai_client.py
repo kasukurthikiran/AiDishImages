@@ -3,8 +3,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 
+load_dotenv()
 
-load_dotenv()   
 
 def client_response():
     api_key = os.getenv("OPENAI_API_KEY")
