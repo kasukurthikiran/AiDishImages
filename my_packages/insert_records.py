@@ -9,11 +9,6 @@ def insert_records(items):
     db, table = get_db_table()
     pc = pinecone_client()
     index = pc.Index(db)
-    # items= [
-    #     {"title": "Chicken Curry", "image_path": "images/chicken.jpg"},
-    #     {"title": "Paneer Butter Masala", "image_path": "images/paneer.jpg"},
-    #     {"title": "Mutton Biryani", "image_path": "images/biryani.jpg"},
-    # ]
 
     vectors = []
 

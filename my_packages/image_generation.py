@@ -7,7 +7,6 @@ from my_packages.text_to_image import generate_image
 
 def image_generation(items):
     load_dotenv()
-    # print("======> started the text_to_image")
     gen_image_workers = os.getenv("gen_image_workers")
     image_prompt = os.getenv("image_prompt")
     output_folder = os.getenv("output_folder")
@@ -37,6 +36,3 @@ def image_generation(items):
             print("Error saving image:", e)
     metadatas = [{"title": d, "image_path": i} for d, i in zip(dishes, image_paths)]
     return metadatas
-
-
-# print(text_to_image(["tomato", "chicken 78"]))

@@ -40,35 +40,10 @@ def filter_records(items):
                         "score": score,
                     }
                 )
-                # print(dish)
+
             else:
                 unmatched_records.append(item)
         else:
             unmatched_records.append(item)
-    # print("matched_dish_items", matched_dish_items)
-    # print("not_matched_dish_items", not_matched_dish_items)
+
     return matched_records, unmatched_records
-
-
-# print(
-#     querypineindex(
-#         [
-#             "Prawn Cutlet",
-#             "Shami Kebab Bhurji",
-#             "Kathkoyla Murgh",
-#             "Kochupata Chingri Bhapa",
-#             "Spicy Shredded Fish",
-#             "hasan",
-#             "saikiarn",
-#         ]
-#     )
-# )
-
-# t = querypineindex(
-#     [
-#         {"title": "Chicken Curry", "image_path": "images/chicken.jpg"},
-#         {"title": "Paneer Butter Masala", "image_path": "images/paneer.jpg"},
-#         {"title": "hi", "image_path": "images/biryani.jpg"},
-#     ]
-# )
-# print(t)
