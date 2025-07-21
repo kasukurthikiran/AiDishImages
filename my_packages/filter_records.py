@@ -5,10 +5,9 @@ from .get_db_table import get_db_table
 from dotenv import load_dotenv
 from .pinecone_client import pinecone_client
 
-threshold = os.getenv("threshold")
-
 
 def filter_records(items):
+    threshold = os.getenv("threshold")
     pc = pinecone_client()
     load_dotenv()
     matched_records = []

@@ -7,7 +7,7 @@ from my_packages.text_to_image import generate_image
 
 def image_generation(items):
     load_dotenv()
-    gen_image_workers = os.getenv("gen_image_workers")
+    gen_image_workers = int(os.getenv("gen_image_workers"))
     image_prompt = os.getenv("image_prompt")
     output_folder = os.getenv("output_folder")
     os.makedirs(output_folder, exist_ok=True)
@@ -34,5 +34,5 @@ def image_generation(items):
 
         except Exception as e:
             print("Error saving image:", e)
-    metadatas = [{"title": d, "image_path": i} for d, i in zip(dishes, image_paths)]
+    metadatas = [{"title": d, "image_path": i} for d, i in zip(items, image_paths)]
     return metadatas
