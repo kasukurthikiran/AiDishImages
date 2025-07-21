@@ -1,10 +1,10 @@
 from queue import Queue
 import threading
-from .openai_client import client_response
+from .openai_client import openai_client
 
 task_queue = Queue()
 
-client = client_response()
+client = openai_client()
 
 
 def generate_image(prompt: str, data_list: list[str], tworkers: int) -> list[dict]:

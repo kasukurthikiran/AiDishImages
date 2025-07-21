@@ -1,9 +1,9 @@
 import base64
 
-from .openai_client import client_response
+from .openai_client import openai_client
 
 
-client = client_response()
+client = openai_client()
 
 
 def extract_text(image_path: str, prompt: str):
