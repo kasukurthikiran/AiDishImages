@@ -3,16 +3,19 @@ import os
 from .generate_embeddings import generate_embedding
 from .get_db_table import get_db_table
 from dotenv import load_dotenv
+from .pinecone_client import pinecone_client
 
 threshold = os.getenv("threshold")
 
 
 def filter_records(items):
+    pc = pinecone_client()
     load_dotenv()
     matched_records = []
     unmatched_records = []
     db, table_name = get_db_table()
-    index = Pinecone(db)
+
+    index = pc.Index(db)
     for item in items:
         vector = generate_embedding(item)
         response = index.query(
@@ -28,7 +31,7 @@ def filter_records(items):
             match = matches[0]
             score = match.get("score", 0)
 
-            if score >= threshold:
+            if score >= float(threshold):
                 metadata = match.get("metadata", {})
                 matched_records.append(
                     {

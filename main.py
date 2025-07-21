@@ -17,6 +17,7 @@ def main():
             metadatas = image_generation(unmatched_records)
             final_result.append(metadatas)
             insert_records(unmatched_records)
+        print(final_result)
 
 
 if __name__ == "__main__":
