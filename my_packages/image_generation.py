@@ -14,7 +14,6 @@ def image_generation(items):
     os.makedirs(output_folder, exist_ok=True)
     start_time = time.time()
 
-    # Generate images using the external imagegen function
     images = generate_image(image_prompt, items, gen_image_workers)
 
     end_time = time.time()

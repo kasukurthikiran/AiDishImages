@@ -10,6 +10,6 @@ load_dotenv()
 model = os.getenv("model")
 
 
-def get_embedding(text, model=model):
+def generate_embedding(text, model=model):
     response = client.embeddings.create(input=text, model=model)
     return response.data[0].embedding
