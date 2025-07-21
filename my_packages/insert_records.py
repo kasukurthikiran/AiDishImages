@@ -1,8 +1,8 @@
 import uuid
 
-from get_db_table import get_db_table
-from pinecone_client import pinecone_client
-from generate_embeddings import generate_embedding
+from .get_db_table import get_db_table
+from .pinecone_client import pinecone_client
+from .generate_embeddings import generate_embedding
 
 
 def insert_records(items):

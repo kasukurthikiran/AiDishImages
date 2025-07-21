@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from image_to_text import extract_text
+from .image_to_text import extract_text
 
 
 def dish_name_extraction():

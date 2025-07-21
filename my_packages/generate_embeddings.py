@@ -1,4 +1,4 @@
-from openai_client import openai_client
+from .openai_client import openai_client
 import os
 
 from dotenv import load_dotenv

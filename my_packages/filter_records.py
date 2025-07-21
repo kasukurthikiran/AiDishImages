@@ -1,7 +1,7 @@
 from pinecone import Pinecone
 import os
-from generate_embeddings import get_embedding
-from get_db_table import get_db_table
+from .generate_embeddings import generate_embedding
+from .get_db_table import get_db_table
 from dotenv import load_dotenv
 
 threshold = os.getenv("threshold")
@@ -14,7 +14,7 @@ def filter_records(items):
     db, table_name = get_db_table()
     index = Pinecone(db)
     for item in items:
-        vector = get_embedding(item)
+        vector = generate_embedding(item)
         response = index.query(
             vector=vector,
             namespace=table_name,
