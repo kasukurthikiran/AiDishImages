@@ -16,8 +16,12 @@ def main():
         if unmatched_records:
             metadatas = image_generation(unmatched_records)
             final_result.append(metadatas)
-            insert_records(unmatched_records)
+            insert_records(metadatas)
+        else:
+            print("There is no unmatched dishes")
         print(final_result)
+    else:
+        print("There is no dishes")
 
 
 if __name__ == "__main__":
