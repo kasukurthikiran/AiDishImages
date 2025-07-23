@@ -1,6 +1,6 @@
 import requests
-from table_headers import table_headers
-from get_db_table import get_db_table
+from .table_headers import table_headers
+from .get_db_table import get_db_table
 
 
 def create_table():
@@ -18,6 +18,7 @@ def create_table():
     }
     response = requests.post(url, headers=headers, json=data)
     if response.status_code == 200:
+        print("success")
         return response.status_code
     else:
         return response.status_code

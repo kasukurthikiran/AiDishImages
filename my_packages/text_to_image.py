@@ -1,6 +1,7 @@
 from queue import Queue
 import threading
 from .openai_client import openai_client
+import uuid
 
 task_queue = Queue()
 
@@ -34,7 +35,13 @@ def generate_image(prompt: str, data_list: list[str], tworkers: int) -> list[dic
                 )
 
                 base64_image = response.data[0].b64_json
-                results.append({"dish": dish, "image_base64": base64_image})
+                results.append(
+                    {
+                        "id": str(uuid.uuid4()),
+                        "dish": dish,
+                        "image_base64": base64_image,
+                    }
+                )
             finally:
                 task_queue.task_done()
 
