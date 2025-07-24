@@ -27,7 +27,19 @@ pineconindexcreaate.py
 
 dishMenuToImageGenarate.py
 
+<<<<<<< HEAD
 dishMenuToImageGenarate.py
 supabase1.py
 
 main2.py
+=======
+asy_python1.py
+
+
+main2.py
+
+supabase1.py
+
+
+dishMenuToImageGenarate.py
+>>>>>>> c9d578d (chore:changed the .git ignore file)
