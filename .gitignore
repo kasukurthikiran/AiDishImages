@@ -35,4 +35,10 @@ main2.py
 supabase1.py
 
 
+
 dishMenuToImageGenarate.py
+
+
+backend_fast_api/__pycache__
+
+backend_fast_api/routers/__pycache__
