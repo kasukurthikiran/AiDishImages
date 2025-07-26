@@ -1,5 +1,3 @@
-import uuid
-
 from .get_db_table import get_db_table
 from .pinecone_client import pinecone_client
 from .generate_embeddings import generate_embedding
@@ -9,17 +7,17 @@ def insert_records(items):
     db, table = get_db_table()
     pc = pinecone_client()
     index = pc.Index(db)
-
     vectors = []
-
     for item in items:
-        vector = generate_embedding(item["title"])
+        print(item["dish"])
+        vector = generate_embedding(item["dish"])
         record = {
-            "id": str(uuid.uuid4()),
+            "id": item["id"],
             "values": vector,
-            "metadata": {"title": item["title"], "image_path": item["image_path"]},
+            "metadata": {"title": item["dish"], "image_path": f"{item['id']}.png"},
         }
         vectors.append(record)
 
-    index.upsert(vectors=vectors, namespace=table)
+    t = index.upsert(vectors=vectors, namespace=table)
     print("Upserted successfully!")
+    return t

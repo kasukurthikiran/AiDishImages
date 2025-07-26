@@ -8,7 +8,7 @@ AiGenaratedImages/
 UserMenuImages/
 
 my_packages/__pycache__/
-
+my_superbase_packages/
 simplethread
 
 
@@ -27,3 +27,7 @@ pineconindexcreaate.py
 
 dishMenuToImageGenarate.py
 
+dishMenuToImageGenarate.py
+supabase1.py
+
+main2.py
