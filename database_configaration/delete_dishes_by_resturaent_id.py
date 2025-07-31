@@ -6,12 +6,10 @@ from .models import Restaurant, Dishes
 
 def delete_restaurant_and_dishes(restaurant_id: int):
     with Session(engine) as session:
-        # First delete dishes
         statement = select(Dishes).where(Dishes.restaurant_id == restaurant_id)
         for dish in session.exec(statement).all():
             session.delete(dish)
 
-        # Then delete restaurant
         restaurant = session.get(Restaurant, restaurant_id)
         if restaurant:
             session.delete(restaurant)
