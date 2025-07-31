@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 from .image_to_text import extract_text
 
 
-def dish_name_extraction():
+def dish_name_extraction(image):
     load_dotenv()
-    image_path = os.getenv("image_path")
+    image_path = image
     prompt = os.getenv("prompt")
     response = extract_text(image_path, prompt)
     content = response.choices[0].message.content

@@ -7,8 +7,7 @@ client = openai_client()
 
 
 def extract_text(image_path: str, prompt: str):
-    with open(image_path, "rb") as image_file:
-        base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+    base64_image = image_path
 
     response = client.chat.completions.create(
         model="gpt-4.1",

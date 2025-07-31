@@ -1,9 +1,9 @@
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import APIRouter, UploadFile, File, Form, Query
 import base64
 from pydantic import BaseModel
 from sqlmodel import select
 from contextlib import contextmanager
-
+import uuid
 from ..my_packages.dish_name_extraction import dish_name_extraction
 from ..my_packages.filter_records import filter_records
 from ..my_packages.image_generation import image_generation
@@ -21,19 +21,46 @@ def get_db_session():
 
 
 class RestaurantDetails(BaseModel):
-    id: str
     name: str
+
+
+@router.get("/dishes_by_r_id")
+def get_dishes_by_restaurant(id: str = Query(...)):
+    with get_db_session() as session:
+        stmt = (
+            select(Dishes, Restaurant.name)
+            .join(Restaurant, Dishes.restaurant_id == Restaurant.id)
+            .where(Restaurant.id == id)
+        )
+        results = session.exec(stmt).all()
+
+        response = []
+
+        for dish, restaurant_name in results:
+            dish_data = dish.model_dump()
+            dish_data["restaurant_name"] = restaurant_name
+            response.append(dish_data)
+
+        t = fetch_images(response)
+
+        signed_url_map = {item["image_path"]: item["signed_url"] for item in t}
+
+        for dish in response:
+            image_path = dish.get("image_path")
+            if image_path in signed_url_map:
+                dish["signed_url"] = signed_url_map[image_path]
+
+    return {"dishes": response}
 
 
 @router.post("/upload/")
 async def upload_image(
     file: UploadFile = File(...),
-    restaurant_id: str = Form(...),
     restaurant_name: str = Form(...),
 ):
     try:
-        restaurant_data = RestaurantDetails(id=restaurant_id, name=restaurant_name)
-        print(restaurant_data.id)
+        restaurant_data = RestaurantDetails(name=restaurant_name)
+
     except Exception as e:
         print(e, "Error while parsing restaurant data")
         return {"error": "Invalid restaurant data"}
@@ -43,49 +70,36 @@ async def upload_image(
 
     dishes = dish_name_extraction(image_base64)
     print(dishes)
-    matched_records_data = []
+    r_id = str(uuid.uuid4())
 
     if dishes:
         matched_records, unmatched_records = filter_records(dishes)
         print("matched_records", matched_records)
         print("unmatched_records", unmatched_records)
-        # Process matched records
-        if matched_records:
-            with get_db_session() as session:
-                for i in matched_records:
-                    statement = select(Dishes).where(Dishes.id == i.get("id"))
-                    print(statement)
-                    dish = session.exec(statement).first()
-                    print(dish)
-                    if dish:
-                        matched_records_data.append(
-                            {
-                                "id": dish.id,
-                                "name": dish.name,
-                                "price": dish.price,
-                                "restaurant_id": dish.restaurant_id,
-                                "image_path": dish.image_path,
-                            }
-                        )
 
-        # Process unmatched records
+        if matched_records:
+            print("matched records")
+
+            with get_db_session() as session:
+                restaurant = Restaurant(id=r_id, name=restaurant_data.name)
+                session.add(restaurant)
+                session.commit()
+                for i in matched_records:
+                    dish = Dishes(
+                        id=str(uuid.uuid4()),
+                        name=i.get("dish"),
+                        image_path=i.get("image_path"),
+                        restaurant_id=r_id,
+                    )
+                    session.add(dish)
+                session.commit()
+
         if unmatched_records:
             print("i am entered into unmatched_records")
             with get_db_session() as session:
-                # Check if restaurant already exists
-                statement = select(Restaurant).where(
-                    Restaurant.id == restaurant_data.id
-                )
-                existing_restaurant = session.exec(statement).first()
-                if not existing_restaurant:
-                    restaurant = Restaurant(
-                        id=restaurant_data.id, name=restaurant_data.name
-                    )
-                    session.add(restaurant)
-                    session.commit()
-                else:
-                    restaurant = existing_restaurant
-
+                restaurant = Restaurant(id=r_id, name=restaurant_data.name)
+                session.add(restaurant)
+                session.commit()
                 temp_paths = image_generation(unmatched_records)
 
                 for i in temp_paths:
@@ -98,14 +112,31 @@ async def upload_image(
                     print(dish)
                     session.add(dish)
                 session.commit()
+    return {"restaurant_ids": r_id}
 
-    # Combine and fetch image URLs
-    if unmatched_records and matched_records:
-        result = matched_records_data + temp_paths
-        t = fetch_images(result)
-    elif unmatched_records:
-        t = fetch_images(temp_paths)
-    elif matched_records:
-        t = fetch_images(matched_records_data)
 
-    return {"details": t}
+@router.get("/dishes_by_all_r_id")
+def get_all_dishes():
+    with get_db_session() as session:
+        stmt = select(Dishes, Restaurant.name).join(
+            Restaurant, Dishes.restaurant_id == Restaurant.id
+        )
+        results = session.exec(stmt).all()
+
+        response = []
+
+        for dish, restaurant_name in results:
+            dish_data = dish.model_dump()
+            dish_data["restaurant_name"] = restaurant_name
+            response.append(dish_data)
+
+        t = fetch_images(response)
+
+        signed_url_map = {item["image_path"]: item["signed_url"] for item in t}
+
+        for dish in response:
+            image_path = dish.get("image_path")
+            if image_path in signed_url_map:
+                dish["signed_url"] = signed_url_map[image_path]
+
+    return {"dishes": response}
