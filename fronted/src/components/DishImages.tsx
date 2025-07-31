@@ -1,6 +1,6 @@
 ("use client");
 import useDishesByIds from "../my_hooks/UseDishesByIds";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { useSearchParams } from "react-router-dom";
 export const DishImages = () => {
   const [searchParams] = useSearchParams();
@@ -26,7 +26,6 @@ export const DishImages = () => {
               key={dish.id}
               className="p-4 shadow-md flex gap-4 items-start"
             >
-              {/* Left: Image */}
               <div className="w-90 h-90 flex-shrink-0">
                 <img
                   src={dish.signed_url}
@@ -35,14 +34,13 @@ export const DishImages = () => {
                 />
               </div>
 
-              {/* Right: Text */}
               <div className="flex flex-col justify-center">
                 <h3 className="text-xl font-bold">{dish.name}</h3>
                 <p className="text-gray-600">
                   Restaurant: {dish.restaurant_name}
                 </p>
                 {/* <p className="text-green-600 font-semibold">
-                  Price: ₹{dish.}
+                  Price: ₹{dish.prise}
                 </p> */}
               </div>
             </Card>

@@ -37,11 +37,6 @@ export default function UploadForm() {
         console.log("Upload success:", data);
         console.log("restaurant_ids", restaurant_ids);
         console.log("data.restaurant_ids", data.restaurant_ids);
-        // const allRestaurantIds = data.restaurant_ids.map(
-        //   (item: { restaurant_id: any }) => item.restaurant_id
-        // );
-        // const uniqueRestaurantIds = [...new Set(allRestaurantIds)];
-        // const query = `?ids=${uniqueRestaurantIds.join(",")}`;
 
         const query = data.restaurant_ids;
         navigate(`/dishes?id=${query}`);
