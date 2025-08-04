@@ -1,13 +1,32 @@
 ("use client");
-import useAllDishes from "../my_hooks/UseAllDishes";
-
+import Loading from "@/customHooks/useLoading";
+import useAllDishes from "../customHooks/UseAllDishes";
+import Error from "../customHooks/useError";
 import { Card, CardHeader } from "@/components/ui/card";
+import { Navigate } from "react-router-dom";
 
 export const Home = () => {
   const { data, isLoading, error } = useAllDishes();
-  console.log("i am data", data);
-  if (isLoading) return <div>Loading dishes...</div>;
-  if (error) return <div>Error loading dishes</div>;
+
+  if (isLoading)
+    return (
+      <div className="flex flex-col items-center justify-center h-screen gap-4">
+        <p className=" font-bold  text-lg font-semibold text-gray-600 animate-pulse">
+          Loading dishes...
+        </p>
+        <Loading />
+      </div>
+    );
+
+  if (error)
+    return (
+      <div>
+        <p className=" font-bold  text-lg font-semibold text-gray-600">
+          Error loading dishes
+        </p>
+        <Error />
+      </div>
+    );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 gap-6 p-4">
@@ -34,7 +53,7 @@ export const Home = () => {
 
               <div className="flex flex-col justify-center">
                 <h3 className="text-xl font-bold">{dish.name}</h3>
-                <p className="text-gray-600">
+                <p className="text-Card-600">
                   Restaurant: {dish.restaurant_name}
                 </p>
                 {/* <p className="text-green-600 font-semibold">

@@ -25,6 +25,7 @@ def generate_image(prompt: str, data_list: list[str], tworkers: int) -> list[dic
                 break
 
             try:
+                print("i am genarating image")
                 response = client.images.generate(
                     model="dall-e-3",
                     prompt=f"{prompt} - {dish}",

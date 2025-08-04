@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import api from "./FastApiAxiosBaseUrl";
+import api from "./useAxiosApi";
 
-const useCustomMutation = () => {
+const useUploadData = () => {
   const mutationFn = async (data: FormData) => {
     const response = await api.post("/upload/", data, {
       headers: {
@@ -14,4 +14,4 @@ const useCustomMutation = () => {
   return useMutation({ mutationFn });
 };
 
-export default useCustomMutation;
+export default useUploadData;

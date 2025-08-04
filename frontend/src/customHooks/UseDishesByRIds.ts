@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import api from "./FastApiAxiosBaseUrl";
+import api from "./useAxiosApi";
 
 const useDishesByIds = (qids: string | null) => {
   const fetchData = async () => {

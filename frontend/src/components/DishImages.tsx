@@ -1,15 +1,28 @@
 ("use client");
-import useDishesByIds from "../my_hooks/UseDishesByIds";
+import useDishesByIds from "../customHooks/UseDishesByRIds";
+
 import { Card, CardHeader } from "@/components/ui/card";
+import Loading from "@/customHooks/useLoading";
 import { useSearchParams } from "react-router-dom";
+import Error from "../customHooks/useError";
 export const DishImages = () => {
   const [searchParams] = useSearchParams();
   const idsParam = searchParams.get("id");
-  console.log(idsParam);
   const { data, isLoading, error } = useDishesByIds(idsParam);
-  console.log("i am data", data);
-  if (isLoading) return <div>Loading dishes...</div>;
-  if (error) return <div>Error loading dishes</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loading />
+        <p className="font-bold  animate-pulse">Loading dishes...</p>
+      </div>
+    );
+  if (error)
+    return (
+      <div>
+        <Error />
+        Error loading dishes
+      </div>
+    );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 gap-6 p-4">

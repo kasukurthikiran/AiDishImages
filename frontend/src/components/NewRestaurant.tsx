@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRestaurantStore } from "@/store/Store";
 import { useNavigate } from "react-router-dom";
-import useCustomMutation from "../my_hooks/PostData";
-
+import useUploadData from "../customHooks/useUploadData";
+import Error from "../customHooks/useError";
 export default function UploadForm() {
   const [restaurantName, setRestaurantName] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -17,7 +17,7 @@ export default function UploadForm() {
   const navigate = useNavigate();
 
   const { mutate, data, error, isPending, isSuccess, isError } =
-    useCustomMutation();
+    useUploadData();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ export default function UploadForm() {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("restaurant_name", restaurantName);
-
+    console.log(formData);
     mutate(formData, {
       onSuccess: (data) => {
         setRestaurant_ids(data.restaurant_ids);
@@ -42,6 +42,10 @@ export default function UploadForm() {
         navigate(`/dishes?id=${query}`);
       },
       onError: (error) => {
+        <div>
+          {<Error />}
+          Error loading dishes
+        </div>;
         console.error("Upload failed:", error);
       },
     });
