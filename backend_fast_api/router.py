@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form, Query
+from fastapi import APIRouter, UploadFile, File, Form, Query, Depends
 import base64
 from pydantic import BaseModel
 from sqlmodel import select
@@ -11,8 +11,12 @@ from ..my_superbase_packages.fetch_images import fetch_images
 
 from ..database_configaration.models import Dishes, Restaurant
 from ..database_configaration.database_connection import get_session
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from datetime import datetime, timedelta, timezone
 
 router = APIRouter()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
 
 @contextmanager
@@ -25,7 +29,11 @@ class RestaurantDetails(BaseModel):
 
 
 @router.get("/dishes_by_r_id")
-def get_dishes_by_restaurant(id: str = Query(...)):
+def get_dishes_by_restaurant(
+    id: str = Query(...),
+    token: str = Depends(oauth2_scheme),
+):
+    print(token, "form dishes api")
     with get_db_session() as session:
         stmt = (
             select(Dishes, Restaurant.name)
@@ -59,6 +67,7 @@ async def upload_image(
     restaurant_name: str = Form(...),
 ):
     try:
+        print("restaurant_name", restaurant_name)
         restaurant_data = RestaurantDetails(name=restaurant_name)
 
     except Exception as e:
