@@ -3,7 +3,7 @@ import api from "./useAxiosApi";
 
 const useUploadData = () => {
   const mutationFn = async (data: FormData) => {
-    const response = await api.post("/upload/", data, {
+    const response = await api.post("/uploads/", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

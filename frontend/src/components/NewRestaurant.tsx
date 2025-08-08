@@ -39,7 +39,7 @@ export default function UploadForm() {
         console.log("data.restaurant_ids", data.restaurant_ids);
 
         const query = data.restaurant_ids;
-        navigate(`/dishes?id=${query}`);
+        navigate(`/poolexample?id=${query}`);
       },
       onError: (error) => {
         <div>

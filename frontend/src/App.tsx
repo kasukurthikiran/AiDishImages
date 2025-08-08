@@ -7,36 +7,19 @@ import Logout from "./components/Logout";
 import SignUp from "./components/SignUp";
 import UploadForm from "./components/NewRestaurant";
 import { DishImages } from "./components/DishImages";
-
+import PoolExample from "./dummycomponents/PoolExample";
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route
-          path="/home"
-          element={<Home />}
-          loader={() => {
-            if (localStorage.getItem("token")) {
-              return null;
-            }
-            throw redirect("/login");
-          }}
-        />
-        <Route
-          path="/login"
-          element={<Login />}
-          loader={() => {
-            if (localStorage.getItem("token")) {
-              throw redirect("/home");
-            }
-            return null;
-          }}
-        />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/dishes" element={<DishImages />} />
         <Route path="/" element={<UploadForm />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/poolexample" element={<PoolExample />} />
       </Routes>
     </div>
   );

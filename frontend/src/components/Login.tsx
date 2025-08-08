@@ -3,23 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import useCustomPostLogin from "@/customHooks/useLogin";
+import useCustomPostLogin from "../customHooks/useLogin";
 
 function Login() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setToken(localStorage.getItem("token"));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, [setToken]);
-
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -42,6 +28,7 @@ function Login() {
       {
         onSuccess: (response) => {
           localStorage.setItem("token", response.access_token);
+          window.dispatchEvent(new Event("storage"));
           console.log(response.access_token);
           alert("Login successful!");
           navigate("/home");
