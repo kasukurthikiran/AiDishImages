@@ -159,31 +159,31 @@ async def upload_images(
     try:
         print("restaurant_name", restaurant_name)
         restaurant_data = RestaurantDetails(name=restaurant_name)
-
     except Exception as e:
         print(e, "Error while parsing restaurant data")
         return {"error": "Invalid restaurant data"}
+
+    r_id = str(uuid.uuid4())
+
+    with get_db_session() as session:
+        restaurant = Restaurant(id=r_id, name=restaurant_data.name)
+        session.add(restaurant)
+        session.commit()
 
     contents = await file.read()
     image_base64 = base64.b64encode(contents).decode("utf-8")
 
     dishes = dish_name_extraction(image_base64)
     print(dishes)
-    r_id = str(uuid.uuid4())
-    dish_id = str(uuid.uuid4())
-    print(dish_id)
 
     if dishes:
         matched_records, unmatched_records = filter_records(dishes)
         print("matched_records", matched_records)
         print("unmatched_records", unmatched_records)
-        if matched_records:
-            print("matched records")
 
-            with get_db_session() as session:
-                restaurant = Restaurant(id=r_id, name=restaurant_data.name)
-                session.add(restaurant)
-                session.commit()
+        with get_db_session() as session:
+            if matched_records:
+                print("matched records")
                 for i in matched_records:
                     dish = Dishes(
                         id=str(uuid.uuid4()),
@@ -192,17 +192,10 @@ async def upload_images(
                         restaurant_id=r_id,
                     )
                     session.add(dish)
-                session.commit()
 
-        if unmatched_records:
-            u_r = []
-            print("i am entered into unmatched_records")
-            with get_db_session() as session:
-                restaurant = Restaurant(id=r_id, name=restaurant_data.name)
-                session.add(restaurant)
-                session.commit()
+            if unmatched_records:
+                print("entered unmatched_records")
                 for i in unmatched_records:
-                    print(r_id)
                     dish_id = str(uuid.uuid4())
                     dish_unmatched_data = UNMATCHEDRECORDS(
                         id=dish_id, name=i, r_id=r_id
@@ -213,11 +206,9 @@ async def upload_images(
                         image_path="",
                         restaurant_id=r_id,
                     )
-                    # print(dish)
-                    u_r.append({"id": id, "name": i, "r_id": r_id})
                     session.add(dish_unmatched_data)
                     session.add(dish_data)
-                session.commit()
-            return {"restaurant_ids": r_id}
+
+            session.commit()
 
     return {"restaurant_ids": r_id}

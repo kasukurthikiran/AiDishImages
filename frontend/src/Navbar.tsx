@@ -44,7 +44,7 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/"
+              to="/restaurant"
               className="text-blue-800 hover:text-pink-700 font-medium"
             >
               New Restaurant
