@@ -42,6 +42,7 @@ supabase1.py
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 dishMenuToImageGenarate.py
 >>>>>>> c9d578d (chore:changed the .git ignore file)
 =======
@@ -53,3 +54,7 @@ backend_fast_api/__pycache__
 
 backend_fast_api/routers/__pycache__
 >>>>>>> df2d9d3 (chore:added the __init__ module)
+=======
+dishMenuToImageGenarate.py
+>>>>>>> c9d578d (chore:changed the .git ignore file)
+>>>>>>> main
