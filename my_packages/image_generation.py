@@ -1,9 +1,9 @@
 import os
 import time
 from dotenv import load_dotenv
-from my_packages.text_to_image import generate_image
+from .text_to_image import generate_image
 from .insert_records import insert_records
-from my_superbase_packages.upload_images import upload_images
+from ..my_superbase_packages.upload_images import upload_images
 
 
 def image_generation(items):

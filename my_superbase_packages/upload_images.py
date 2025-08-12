@@ -17,7 +17,13 @@ def upload_images(images):
 
             image_bytes = base64.b64decode(image_base64)
             image_path = f"{folder_name}/{dish_name}.png"
-            image_paths.append({"image_path": f"{dish_name}.png"})
+            image_paths.append(
+                {
+                    "image_path": f"{dish_name}.png",
+                    "name": image.get("dish"),
+                    "id": image.get("id"),
+                }
+            )
 
             response = supabase.storage.from_(bucket_name).upload(
                 path=image_path,
@@ -25,7 +31,7 @@ def upload_images(images):
                 file_options={
                     "content-type": "image/png",
                     "cache-control": "3600",
-                    "upsert": "false",
+                    "upsert": "true",
                 },
             )
 

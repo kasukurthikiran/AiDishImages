@@ -25,7 +25,14 @@ def fetch_images(images):
 
             signed_url = response.get("signedURL") or response.get("signed_url")
             if signed_url:
-                image_urls.append({"signed_url": signed_url})
+                image_urls.append(
+                    {
+                        "signed_url": signed_url,
+                        "image_path": image.get("image_path"),
+                        "name": image.get("name"),
+                        "id": image.get("id"),
+                    }
+                )
             else:
                 print(f"Failed to generate URL for {image}: {response}")
         except Exception as e:
