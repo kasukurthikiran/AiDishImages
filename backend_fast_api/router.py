@@ -212,3 +212,14 @@ async def upload_images(
             session.commit()
 
     return {"restaurant_ids": r_id}
+
+
+@router.get("/restaurants_data")
+def get_restaurant_data():
+    with get_db_session() as session:
+        statement = select(Restaurant)
+        restaurants = session.exec(statement).all()
+        restaurants_data = [{"id": i.id, "name": i.name} for i in restaurants]
+        print(restaurants_data)
+
+    return {"restaurants_data": restaurants_data}

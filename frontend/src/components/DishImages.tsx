@@ -26,14 +26,14 @@ export const DishImages = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 gap-6 p-4">
-      {!data || data.dishes.length === 0 ? (
+      {!data || data.length === 0 ? (
         <Card className="shadow-md col-span-full">
           <CardHeader className="text-center font-bold text-lg text-gray-500">
             No data found
           </CardHeader>
         </Card>
       ) : (
-        data.dishes.map((dish: any) => (
+        data.map((dish: any) => (
           <div className="max-w-xl mx-auto my-4">
             <Card
               key={dish.id}
